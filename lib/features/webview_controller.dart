@@ -263,6 +263,19 @@ class _WebviewControllerState extends State<WebviewController> {
                           })();
                         """);
                       }
+
+                      if (url.contains("http://ranking5.sogeum.kr/bbs/login.php") && _viewController != null) {
+                        // 추후 카카오 or 구글 맵스 API 추가 부분
+
+                        final cookies = await _getCookies(_viewController!);
+                        await _saveCookies(cookies);
+                      } else {
+                        final cookies = await _loadCookies();
+
+                        if (cookies != null) {
+                          await _setCookies(_viewController!, cookies);
+                        }
+                      }
                     },
                     geolocationEnabled: true,
                     zoomEnabled: false,
