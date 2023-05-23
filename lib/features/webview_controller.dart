@@ -6,8 +6,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_pro/webview_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:rank5/features/msg_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WebviewController extends StatefulWidget {
@@ -32,7 +34,7 @@ class _WebviewControllerState extends State<WebviewController> {
   Position? _position;
 
   // 푸시 추가 부분
-  //final MsgController _msgController = Get.put(MsgController());
+  final MsgController _msgController = Get.put(MsgController());
 
   @override
   void initState() {
@@ -133,10 +135,8 @@ class _WebviewControllerState extends State<WebviewController> {
               print('@addJavaScriptHandler userId $userId');
             }
 
-            /*
             String? token = await _getPushToken();
             _viewController?.runJavascript('tokenUpdate("$token")');
-            */
           }
         }
         setState(() {});
@@ -145,11 +145,9 @@ class _WebviewControllerState extends State<WebviewController> {
   }
 
   // 푸시 추가 부분
-  /*
   Future<String?> _getPushToken() async {
     return await _msgController.getToken();
   }
-  */
 
   @override
   Widget build(BuildContext context) {
