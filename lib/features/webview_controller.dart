@@ -123,7 +123,7 @@ class _WebviewControllerState extends State<WebviewController> {
     return prefs.getString('cookies');
   }
 
-  // 네이티브 ~ 웹 서버 통신 (Firebase Server 구축 후 토큰 저장)
+  // 네이티브 ~ 웹 서버 통신
   JavascriptChannel _flutterWebviewProJavascriptChannel(BuildContext context) {
     return JavascriptChannel(
       name: 'flutter_webview_pro',

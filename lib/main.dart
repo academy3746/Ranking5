@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -19,11 +18,9 @@ void launchURL() async {
   }
 }
 
-
 Future<void> _requestLocationPermission() async {
   await Permission.location.request();
 }
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Firebase 연동 시 필히 import
@@ -36,13 +33,11 @@ void main() async {
 
   await _requestLocationPermission();
 
-  runZonedGuarded(() async {
-    runApp(const Rank5App());
-  }, (error, stack) {
+  runZonedGuarded(() async {}, (error, stack) {
     FirebaseCrashlytics.instance.recordError(error, stack);
   });
 
-  //runApp(const Rank5App());
+  runApp(const Rank5App());
 
   await SystemChrome.setPreferredOrientations(
     [
@@ -51,9 +46,7 @@ void main() async {
     ],
   );
 
-  SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle.light
-  );
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
 }
 
 class Rank5App extends StatelessWidget {
@@ -65,21 +58,25 @@ class Rank5App extends StatelessWidget {
     return MaterialApp(
       title: '랭킹5',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        primaryColor: const Color(0xFF0AE5AC),
-        visualDensity: VisualDensity.adaptivePlatformDensity
-        //useMaterial3: true,
-      ),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          primaryColor: const Color(0xFF0AE5AC),
+          visualDensity: VisualDensity.adaptivePlatformDensity
+          //useMaterial3: true,
+          ),
       debugShowCheckedModeBanner: false,
       home: const WebviewController(),
     );
   }
 }
 
+// Splash Screen
 Future<bool> fetchData() async {
   bool data = false;
 
-  await Future.delayed(const Duration(seconds: 3), () {
+  await Future.delayed(
+      const Duration(
+        seconds: 1,
+      ), () {
     data = true;
   });
 
