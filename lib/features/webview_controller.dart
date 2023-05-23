@@ -66,6 +66,9 @@ class _WebviewControllerState extends State<WebviewController> {
     try {
       final position = await Geolocator.getCurrentPosition();
       setState(() {
+        if (kDebugMode) {
+          print(_position);
+        }
         _position = position;
       });
     } catch (e) {
@@ -144,7 +147,6 @@ class _WebviewControllerState extends State<WebviewController> {
     );
   }
 
-  // 푸시 추가 부분
   Future<String?> _getPushToken() async {
     return await _msgController.getToken();
   }
