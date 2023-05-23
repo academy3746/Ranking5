@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Rank5</string>
+	<string>랭킹5</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -24,6 +24,33 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+
+	<key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+        <key>NSAllowsArbitraryLoadsInWebContent</key>
+        <true/>
+        <key>NSAllowsLocalNetworking</key>
+        <true/>
+    </dict>
+
+    <key>NSCameraUsageDescription</key>
+    <string>사진촬영을 원하신다면 해당 앱에 대한 사진촬영 권한을 허용해주셔야 합니다.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>다른 유저들에게 현재 내 위치를 공유하기 위해서는 위치 권한 접근을 허용해주셔야 합니다.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>다른 유저들에게 현재 내 위치를 공유하기 위해서는 위치 권한 접근을 허용해주셔야 합니다.</string>
+    <key>NSLocationUsageDescription</key>
+    <string>다른 유저들에게 현재 내 위치를 공유하기 위해서는 위치 권한 접근을 허용해주셔야 합니다.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>다른 유저들에게 현재 내 위치를 공유하기 위해서는 위치 권한 접근을 허용해주셔야 합니다.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>갤러리에 저장된 사진을 게시판에 등록하기 원하신다면 해당 앱에 대한 저장매체 접근 권한을 허용해주셔야 합니다.</string>
+
+    <key>UIApplicationSupportsIndirectInputEvents</key>
+    <true/>
+
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -47,5 +74,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+
+	<key>io.flutter.embedded_views_preview</key>
+    <string>YES</string>
+
 </dict>
 </plist>
