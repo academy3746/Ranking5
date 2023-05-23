@@ -14,13 +14,15 @@ void launchURL() async {
   }
 }
 
+/*
 Future<void> _requestLocationPermission() async {
   await Permission.location.request();
 }
+*/
 
 void main() async {
 
-  await _requestLocationPermission();
+  //await _requestLocationPermission();
 
   runApp(const Rank5App());
 
