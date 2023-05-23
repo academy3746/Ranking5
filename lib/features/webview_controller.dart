@@ -242,6 +242,24 @@ class _WebviewControllerState extends State<WebviewController> {
                     print("Current Page: $url");
                   }
                 },
+                onPageFinished: (String url) async {
+                  if (url.contains("") && _viewController != null) {
+                    await _viewController!.runJavascript("""
+                      (function() {
+                        function scrollToFocusedInput(event) {
+                          const focusedElement = document.activeElement;
+                          if (focusedElement.tagName.toLowerCase() === 'input' || focusedElement.tagName.toLowerCase() === 'textarea') {
+                            setTimeout(() => {
+                              focusedElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }, 500);
+                          }
+                        }
+              
+                        document.addEventListener('focus', scrollToFocusedInput, true);
+                      })();
+                    """);
+                  }
+                },
                 geolocationEnabled: true,
                 zoomEnabled: false,
                 // ignore: prefer_collection_literals
