@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "770498341269",
+    "project_id": "ranking5",
+    "storage_bucket": "ranking5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:770498341269:android:6c93d270941703055e6e9c",
+        "android_client_info": {
+          "package_name": "kr.sogeum.rank5"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "770498341269-ii1bl0s3anubf1rb3msk46o7g1u95qo0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kr.sogeum.rank5",
+            "certificate_hash": "a3588737fb97003660a8fa6b52de6e028e338e0a"
+          }
+        },
+        {
+          "client_id": "770498341269-9si500qlrucanqeb21ns2531945s23pl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-XyGwxB1dyrGbIY12Or5ckfJrW0IS5Yo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "770498341269-9si500qlrucanqeb21ns2531945s23pl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

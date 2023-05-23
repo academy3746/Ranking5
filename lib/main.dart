@@ -48,6 +48,7 @@ class Rank5App extends StatelessWidget {
       title: '랭킹5',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        primaryColor: const Color(0xFF0AE5AC),
         visualDensity: VisualDensity.adaptivePlatformDensity
         //useMaterial3: true,
       ),
