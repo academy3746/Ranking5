@@ -155,161 +155,141 @@ class _WebviewControllerState extends State<WebviewController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        scrollDirection: Axis.vertical,
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height - MediaQuery.of(context).viewInsets.bottom,
-          child: Stack(
-            children: [
-              WillPopScope(
-                onWillPop: () async {
-                  if (_viewController == null) {
-                    return false;
-                  }
+      body: LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+        return SizedBox(
+          height: constraints.maxHeight,
+          width: constraints.maxWidth,
+          child: WillPopScope(
+            onWillPop: () async {
+              if (_viewController == null) {
+                return false;
+              }
 
-                  final currentUrl = await _viewController?.currentUrl();
+              final currentUrl = await _viewController?.currentUrl();
 
-                  if (currentUrl == url) {
-                    if (!mounted) return false;
-                    return showDialog<bool>(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: const Text("앱을 종료하시겠습니까?"),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop(true);
-                                if (kDebugMode) {
-                                  print("앱이 포그라운드에서 종료되었습니다.");
-                                }
-                              },
-                              child: const Text("확인"),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop(false);
-                                if (kDebugMode) {
-                                  print("앱이 종료되지 않았습니다.");
-                                }
-                              },
-                              child: const Text("취소"),
-                            ),
-                          ],
-                        );
-                      },
-                    ).then((value) => value ?? false);
-                  } else if (await _viewController!.canGoBack() &&
-                      _viewController != null) {
-                    _viewController!.goBack();
-                    if (kDebugMode) {
-                      print("이전 페이지로 이동하였습니다.");
-                    }
-                    isInMainPage = false;
-                    return false;
-                  }
-                  return false;
-                },
-                child: SafeArea(
-                  child: WebView(
-                    initialUrl: url,
-                    javascriptMode: JavascriptMode.unrestricted,
-                    // ignore: prefer_collection_literals
-                    javascriptChannels: <JavascriptChannel>[
-                      _flutterWebviewProJavascriptChannel(context),
-                    ].toSet(),
-                    userAgent:
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36",
-                    onWebResourceError: (error) {
-                      if (kDebugMode) {
-                        print("Error Code: ${error.errorCode}");
-                        print("Error Description: ${error.description}");
-                      }
-                    },
-                    onWebViewCreated: (WebViewController webviewController) async {
-                      _controller.complete(webviewController);
-                      _viewController = webviewController;
-
-                      webviewController.currentUrl().then((url) {
-                        if (url == "http://ranking5.sogeum.kr/") {
-                          setState(() {
-                            isInMainPage = true;
-                          });
-                        } else {
-                          setState(() {
-                            isInMainPage = false;
-                          });
-                        }
-                      });
-                    },
-                    onPageStarted: (String url) async {
-                      if (kDebugMode) {
-                        print("Current Page: $url");
-                      }
-                    },
-                    onPageFinished: (String url) async {
-                      if (url.contains("http://ranking5.sogeum.kr/") && _viewController != null) {
-                        await _viewController!.runJavascript("""
-                          (function() {
-                            function scrollToFocusedInput(event) {
-                              const focusedElement = document.activeElement;
-                              if (focusedElement.tagName.toLowerCase() === 'input' || focusedElement.tagName.toLowerCase() === 'textarea') {
-                                setTimeout(() => {
-                                  focusedElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                }, 500);
-                              }
+              if (currentUrl == url) {
+                if (!mounted) return false;
+                return showDialog<bool>(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text("앱을 종료하시겠습니까?"),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(true);
+                            if (kDebugMode) {
+                              print("앱이 포그라운드에서 종료되었습니다.");
                             }
-                  
-                            document.addEventListener('focus', scrollToFocusedInput, true);
-                          })();
-                        """);
-                      }
+                          },
+                          child: const Text("확인"),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(false);
+                            if (kDebugMode) {
+                              print("앱이 종료되지 않았습니다.");
+                            }
+                          },
+                          child: const Text("취소"),
+                        ),
+                      ],
+                    );
+                  },
+                ).then((value) => value ?? false);
+              } else if (await _viewController!.canGoBack() &&
+                  _viewController != null) {
+                _viewController!.goBack();
+                if (kDebugMode) {
+                  print("이전 페이지로 이동하였습니다.");
+                }
+                isInMainPage = false;
+                return false;
+              }
+              return false;
+            },
+            child: SafeArea(
+              child: WebView(
+                initialUrl: url,
+                javascriptMode: JavascriptMode.unrestricted,
+                // ignore: prefer_collection_literals
+                javascriptChannels: <JavascriptChannel>[
+                  _flutterWebviewProJavascriptChannel(context),
+                ].toSet(),
+                userAgent:
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36",
+                onWebResourceError: (error) {
+                  if (kDebugMode) {
+                    print("Error Code: ${error.errorCode}");
+                    print("Error Description: ${error.description}");
+                  }
+                },
+                onWebViewCreated: (WebViewController webviewController) async {
+                  _controller.complete(webviewController);
+                  _viewController = webviewController;
 
-                      if (url.contains("http://ranking5.sogeum.kr/bbs/login.php") && _viewController != null) {
-                        // 추후 카카오 or 구글 맵스 API 추가 부분
-
-                        final cookies = await _getCookies(_viewController!);
-                        await _saveCookies(cookies);
-                      } else {
-                        final cookies = await _loadCookies();
-
-                        if (cookies != null) {
-                          await _setCookies(_viewController!, cookies);
+                  webviewController.currentUrl().then((url) {
+                    if (url == "http://ranking5.sogeum.kr/") {
+                      setState(() {
+                        isInMainPage = true;
+                      });
+                    } else {
+                      setState(() {
+                        isInMainPage = false;
+                      });
+                    }
+                  });
+                },
+                onPageStarted: (String url) async {
+                  if (kDebugMode) {
+                    print("Current Page: $url");
+                  }
+                },
+                onPageFinished: (String url) async {
+                  if (url.contains("http://ranking5.sogeum.kr/") && _viewController != null) {
+                    await _viewController!.runJavascript("""
+                    (function() {
+                      function scrollToFocusedInput(event) {
+                        const focusedElement = document.activeElement;
+                        if (focusedElement.tagName.toLowerCase() === 'input' || focusedElement.tagName.toLowerCase() === 'textarea') {
+                          setTimeout(() => {
+                            focusedElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                          }, 500);
                         }
                       }
-                    },
-                    geolocationEnabled: true,
-                    zoomEnabled: false,
-                    // ignore: prefer_collection_literals
-                    gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
-                      Factory<EagerGestureRecognizer>(
-                            () => EagerGestureRecognizer(),
-                      ),
-                    ].toSet(),
+            
+                      document.addEventListener('focus', scrollToFocusedInput, true);
+                    })();
+                  """);
+                  }
+
+                  if (url.contains("http://ranking5.sogeum.kr/bbs/login.php") && _viewController != null) {
+                    // 추후 카카오 or 구글 맵스 API 추가 부분
+
+                    final cookies = await _getCookies(_viewController!);
+                    await _saveCookies(cookies);
+                  } else {
+                    final cookies = await _loadCookies();
+
+                    if (cookies != null) {
+                      await _setCookies(_viewController!, cookies);
+                    }
+                  }
+                },
+                geolocationEnabled: true,
+                zoomEnabled: false,
+                // ignore: prefer_collection_literals
+                gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+                  Factory<EagerGestureRecognizer>(
+                        () => EagerGestureRecognizer(),
                   ),
-                ),
+                ].toSet(),
+                gestureNavigationEnabled: true,
               ),
-              if (Platform.isIOS)
-                Positioned(
-                  right: 20,
-                  bottom: 130,
-                  child: FloatingActionButton(
-                    child: const Icon(
-                      Icons.arrow_back,
-                    ),
-                    onPressed: () async {
-                      if (_viewController != null &&
-                          (await _viewController!.canGoBack())) {
-                        _viewController!.goBack();
-                      }
-                    },
-                  ),
-                ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },),
     );
   }
 }

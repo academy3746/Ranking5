@@ -52,7 +52,6 @@ void main() async {
 class Rank5App extends StatelessWidget {
   const Rank5App({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
