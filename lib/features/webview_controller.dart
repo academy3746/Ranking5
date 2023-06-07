@@ -11,6 +11,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rank5/features/msg_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class WebviewController extends StatefulWidget {
   const WebviewController({Key? key}) : super(key: key);
@@ -22,12 +23,15 @@ class WebviewController extends StatefulWidget {
 class _WebviewControllerState extends State<WebviewController> {
   // URL 초기화
   //final String url = "http://ranking5.sogeum.kr/";
-  final String url = "http://jonghyun.sogeum.kr/";
+  //final String url = "http://jonghyun.sogeum.kr/";
+  final String url = "http://lawtary.com/";
+
   // 인덱스 페이지 초기화
   bool isInMainPage = true;
+
   // 웹뷰 컨트롤러 초기화
   final Completer<WebViewController> _controller =
-  Completer<WebViewController>();
+      Completer<WebViewController>();
 
   WebViewController? _viewController;
 
@@ -86,7 +90,7 @@ class _WebviewControllerState extends State<WebviewController> {
     PermissionStatus status = await Permission.manageExternalStorage.status;
     if (!status.isGranted) {
       PermissionStatus result =
-      await Permission.manageExternalStorage.request();
+          await Permission.manageExternalStorage.request();
       if (!result.isGranted) {
         if (kDebugMode) {
           print('저장소 접근 권한이 승인되었습니다.');
@@ -102,7 +106,7 @@ class _WebviewControllerState extends State<WebviewController> {
   // 쿠키 획득
   Future<String> _getCookies(WebViewController controller) async {
     final String cookies =
-    await controller.runJavascriptReturningResult('document.cookie;');
+        await controller.runJavascriptReturningResult('document.cookie;');
     return cookies;
   }
 
@@ -152,105 +156,127 @@ class _WebviewControllerState extends State<WebviewController> {
     return await _msgController.getToken();
   }
 
+  void launchURL(String url) async {
+    final marketUrl = Uri.parse(url);
+
+    if (await canLaunchUrl(marketUrl)) {
+      await launchUrl(
+        marketUrl,
+        mode: LaunchMode.externalNonBrowserApplication,
+      );
+    } else {
+      throw "Can not launch $marketUrl";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
-        return SizedBox(
-          height: constraints.maxHeight,
-          width: constraints.maxWidth,
-          child: WillPopScope(
-            onWillPop: () async {
-              if (_viewController == null) {
-                return false;
-              }
-
-              final currentUrl = await _viewController?.currentUrl();
-
-              if (currentUrl == url) {
-                if (!mounted) return false;
-                return showDialog<bool>(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: const Text("앱을 종료하시겠습니까?"),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop(true);
-                            if (kDebugMode) {
-                              print("앱이 포그라운드에서 종료되었습니다.");
-                            }
-                          },
-                          child: const Text("확인"),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop(false);
-                            if (kDebugMode) {
-                              print("앱이 종료되지 않았습니다.");
-                            }
-                          },
-                          child: const Text("취소"),
-                        ),
-                      ],
-                    );
-                  },
-                ).then((value) => value ?? false);
-              } else if (await _viewController!.canGoBack() &&
-                  _viewController != null) {
-                _viewController!.goBack();
-                if (kDebugMode) {
-                  print("이전 페이지로 이동하였습니다.");
+      body: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          return SizedBox(
+            height: constraints.maxHeight,
+            width: constraints.maxWidth,
+            child: WillPopScope(
+              onWillPop: () async {
+                if (_viewController == null) {
+                  return false;
                 }
-                isInMainPage = false;
-                return false;
-              }
-              return false;
-            },
-            child: SafeArea(
-              child: WebView(
-                initialUrl: url,
-                javascriptMode: JavascriptMode.unrestricted,
-                // ignore: prefer_collection_literals
-                javascriptChannels: <JavascriptChannel>[
-                  _flutterWebviewProJavascriptChannel(context),
-                ].toSet(),
-                userAgent:
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36",
-                onWebResourceError: (error) {
-                  if (kDebugMode) {
-                    print("Error Code: ${error.errorCode}");
-                    print("Error Description: ${error.description}");
-                  }
-                },
-                onWebViewCreated: (WebViewController webviewController) async {
-                  _controller.complete(webviewController);
-                  _viewController = webviewController;
 
-                  webviewController.currentUrl().then((url) {
-                    //if (url == "http://ranking5.sogeum.kr/") {
-                    if (url == "http://jonghyun.sogeum.kr/") {
-                      setState(() {
-                        isInMainPage = true;
-                      });
-                    } else {
-                      setState(() {
-                        isInMainPage = false;
-                      });
-                    }
-                  });
-                },
-                onPageStarted: (String url) async {
+                final currentUrl = await _viewController?.currentUrl();
+
+                if (currentUrl == url) {
+                  if (!mounted) return false;
+                  return showDialog<bool>(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text("앱을 종료하시겠습니까?"),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(true);
+                              if (kDebugMode) {
+                                print("앱이 포그라운드에서 종료되었습니다.");
+                              }
+                            },
+                            child: const Text("확인"),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(false);
+                              if (kDebugMode) {
+                                print("앱이 종료되지 않았습니다.");
+                              }
+                            },
+                            child: const Text("취소"),
+                          ),
+                        ],
+                      );
+                    },
+                  ).then((value) => value ?? false);
+                } else if (await _viewController!.canGoBack() &&
+                    _viewController != null) {
+                  _viewController!.goBack();
                   if (kDebugMode) {
-                    print("Current Page: $url");
+                    print("이전 페이지로 이동하였습니다.");
                   }
-                },
-                onPageFinished: (String url) async {
-                  //if (url.contains("http://ranking5.sogeum.kr/") && _viewController != null) {
-                  if (url.contains("http://jonghyun.sogeum.kr/") && _viewController != null) {
-                    await _viewController!.runJavascript("""
+                  isInMainPage = false;
+                  return false;
+                }
+                return false;
+              },
+              child: SafeArea(
+                child: WebView(
+                  initialUrl: url,
+                  javascriptMode: JavascriptMode.unrestricted,
+                  // ignore: prefer_collection_literals
+                  javascriptChannels: <JavascriptChannel>[
+                    _flutterWebviewProJavascriptChannel(context),
+                  ].toSet(),
+                  /*
+                    userAgent:
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36",
+                    */
+                  onWebResourceError: (error) {
+                    if (kDebugMode) {
+                      print("Error Code: ${error.errorCode}");
+                      print("Error Description: ${error.description}");
+                    }
+                  },
+                  onWebViewCreated:
+                      (WebViewController webviewController) async {
+                    _controller.complete(webviewController);
+                    _viewController = webviewController;
+
+                    webviewController.currentUrl().then((url) {
+                      //if (url == "http://ranking5.sogeum.kr/") {
+                      if (url == "http://jonghyun.sogeum.kr/") {
+                      //if (url == "http://lawtary.com/") {
+                        setState(() {
+                          isInMainPage = true;
+                        });
+                      } else {
+                        setState(() {
+                          isInMainPage = false;
+                        });
+                      }
+                    });
+                  },
+                  onPageStarted: (String url) async {
+                    if (kDebugMode) {
+                      print("Current Page: $url");
+                    }
+                  },
+                  onPageFinished: (String url) async {
+                    //if (url.contains("http://ranking5.sogeum.kr/") && _viewController != null) {
+                    if (url.contains("http://jonghyun.sogeum.kr/") && _viewController != null) {
+                    /*
+                    if (url.contains("http://lawtary.com/") &&
+                        _viewController != null) {
+                    */
+                      await _viewController!.runJavascript("""
                     (function() {
                       function scrollToFocusedInput(event) {
                         const focusedElement = document.activeElement;
@@ -264,36 +290,51 @@ class _WebviewControllerState extends State<WebviewController> {
                       document.addEventListener('focus', scrollToFocusedInput, true);
                     })();
                   """);
-                  }
-
-                  //if (url.contains("http://ranking5.sogeum.kr/bbs/login.php") && _viewController != null) {
-                  if (url.contains("http://jonghyun.sogeum.kr/bbs/login.php") && _viewController != null) {
-                    // 추후 카카오 or 구글 맵스 API 추가 부분
-
-                    final cookies = await _getCookies(_viewController!);
-                    await _saveCookies(cookies);
-                  } else {
-                    final cookies = await _loadCookies();
-
-                    if (cookies != null) {
-                      await _setCookies(_viewController!, cookies);
                     }
-                  }
-                },
-                geolocationEnabled: true,
-                zoomEnabled: false,
-                // ignore: prefer_collection_literals
-                gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
-                  Factory<EagerGestureRecognizer>(
-                        () => EagerGestureRecognizer(),
-                  ),
-                ].toSet(),
-                gestureNavigationEnabled: true,
+
+                    //if (url.contains("http://ranking5.sogeum.kr/bbs/login.php") && _viewController != null) {
+                    if (url.contains("http://jonghyun.sogeum.kr/bbs/login.php") && _viewController != null) {
+                    /*
+                    if (url.contains("http://lawtary.com/bbs/login.php") &&
+                        _viewController != null) {
+                    */
+                      // 추후 카카오 or 구글 맵스 API 추가 부분
+
+                      final cookies = await _getCookies(_viewController!);
+                      await _saveCookies(cookies);
+                    } else {
+                      final cookies = await _loadCookies();
+
+                      if (cookies != null) {
+                        await _setCookies(_viewController!, cookies);
+                      }
+                    }
+                  },
+                  geolocationEnabled: true,
+                  zoomEnabled: false,
+                  // ignore: prefer_collection_literals
+                  gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+                    Factory<EagerGestureRecognizer>(
+                      () => EagerGestureRecognizer(),
+                    ),
+                  ].toSet(),
+                  gestureNavigationEnabled: true,
+                  /*
+                  navigationDelegate: (NavigationRequest request) async {
+                    if (request.url.startsWith(
+                        "https://play.google.com/store/apps/details?id=org.khug.khmg")) {
+                      launchURL(request.url);
+                      return NavigationDecision.prevent;
+                    }
+                    return NavigationDecision.navigate;
+                  },
+                  */
+                ),
               ),
             ),
-          ),
-        );
-      },),
+          );
+        },
+      ),
     );
   }
 }
