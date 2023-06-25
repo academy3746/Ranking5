@@ -40,7 +40,7 @@ class MsgController extends GetxController {
   );
 
   final FlutterLocalNotificationsPlugin plugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   // Firebase 서버에 등록된 유저의 고유 토큰값 Get
   Future<String?> getToken() async {
@@ -61,7 +61,7 @@ class MsgController extends GetxController {
   Future<String?> onMessage() async {
     await plugin
         .resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>()
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
 
     await plugin.initialize(
