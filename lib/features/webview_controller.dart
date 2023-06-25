@@ -22,9 +22,7 @@ class WebviewController extends StatefulWidget {
 
 class _WebviewControllerState extends State<WebviewController> {
   // URL 초기화
-  //final String url = "http://ranking5.sogeum.kr/";
-  //final String url = "http://jonghyun.sogeum.kr/";
-  final String url = "http://lawtary.com/";
+  final String url = "http://ranking5.sogeum.kr/";
 
   // 인덱스 페이지 초기화
   bool isInMainPage = true;
@@ -251,9 +249,7 @@ class _WebviewControllerState extends State<WebviewController> {
                     _viewController = webviewController;
 
                     webviewController.currentUrl().then((url) {
-                      //if (url == "http://ranking5.sogeum.kr/") {
-                      if (url == "http://jonghyun.sogeum.kr/") {
-                      //if (url == "http://lawtary.com/") {
+                      if (url == "http://ranking5.sogeum.kr/") {
                         setState(() {
                           isInMainPage = true;
                         });
@@ -270,12 +266,7 @@ class _WebviewControllerState extends State<WebviewController> {
                     }
                   },
                   onPageFinished: (String url) async {
-                    //if (url.contains("http://ranking5.sogeum.kr/") && _viewController != null) {
-                    if (url.contains("http://jonghyun.sogeum.kr/") && _viewController != null) {
-                    /*
-                    if (url.contains("http://lawtary.com/") &&
-                        _viewController != null) {
-                    */
+                    if (url.contains("http://ranking5.sogeum.kr/") && _viewController != null) {
                       await _viewController!.runJavascript("""
                     (function() {
                       function scrollToFocusedInput(event) {
@@ -292,12 +283,7 @@ class _WebviewControllerState extends State<WebviewController> {
                   """);
                     }
 
-                    //if (url.contains("http://ranking5.sogeum.kr/bbs/login.php") && _viewController != null) {
-                    if (url.contains("http://jonghyun.sogeum.kr/bbs/login.php") && _viewController != null) {
-                    /*
-                    if (url.contains("http://lawtary.com/bbs/login.php") &&
-                        _viewController != null) {
-                    */
+                    if (url.contains("http://ranking5.sogeum.kr/bbs/login.php") && _viewController != null) {
                       // 추후 카카오 or 구글 맵스 API 추가 부분
 
                       final cookies = await _getCookies(_viewController!);
@@ -319,16 +305,6 @@ class _WebviewControllerState extends State<WebviewController> {
                     ),
                   ].toSet(),
                   gestureNavigationEnabled: true,
-                  /*
-                  navigationDelegate: (NavigationRequest request) async {
-                    if (request.url.startsWith(
-                        "https://play.google.com/store/apps/details?id=org.khug.khmg")) {
-                      launchURL(request.url);
-                      return NavigationDecision.prevent;
-                    }
-                    return NavigationDecision.navigate;
-                  },
-                  */
                 ),
               ),
             ),
