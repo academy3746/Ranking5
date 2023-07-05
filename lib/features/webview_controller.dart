@@ -315,12 +315,6 @@ class _WebviewControllerState extends State<WebviewController> {
                       }
                       return NavigationDecision.prevent;
                     }
-                    else if (request.url.startsWith("mailto:")) {
-                      if (await canLaunchUrl(Uri.parse(request.url))) {
-                        await launchUrl(Uri.parse(request.url));
-                      }
-                      return NavigationDecision.prevent;
-                    }
                     return NavigationDecision.navigate;
                   },
                 ),
