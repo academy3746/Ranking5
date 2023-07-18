@@ -22,7 +22,7 @@ class WebviewController extends StatefulWidget {
 
 class _WebviewControllerState extends State<WebviewController> {
   // URL 초기화
-  final String url = "http://ranking5.sogeum.kr/";
+  final String url = "https://ranking5.net/";
 
   // 인덱스 페이지 초기화
   bool isInMainPage = true;
@@ -250,7 +250,7 @@ class _WebviewControllerState extends State<WebviewController> {
                     _viewController = webviewController;
 
                     webviewController.currentUrl().then((url) {
-                      if (url == "http://ranking5.sogeum.kr/") {
+                      if (url == "https://ranking5.net/") {
                         setState(() {
                           isInMainPage = true;
                         });
@@ -267,7 +267,7 @@ class _WebviewControllerState extends State<WebviewController> {
                     }
                   },
                   onPageFinished: (String url) async {
-                    if (url.contains("http://ranking5.sogeum.kr/") &&
+                    if (url.contains("https://ranking5.net/") &&
                         _viewController != null) {
                       await _viewController!.runJavascript("""
                     (function() {
@@ -286,7 +286,7 @@ class _WebviewControllerState extends State<WebviewController> {
                     }
 
                     if (url.contains(
-                            "http://ranking5.sogeum.kr/bbs/login.php") &&
+                            "https://ranking5.net/bbs/login.php") &&
                         _viewController != null) {
                       // 추후 카카오 or 구글 맵스 API 추가 부분
 
