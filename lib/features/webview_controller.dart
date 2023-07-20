@@ -316,6 +316,11 @@ class _WebviewControllerState extends State<WebviewController> {
                       }
                       return NavigationDecision.prevent;
                     }
+                    if (request.url.startsWith(
+                        "https://play.google.com/store/apps/details?id=kr.sogeum.rank5")) {
+                      launchURL(request.url);
+                      return NavigationDecision.prevent;
+                    }
                     return NavigationDecision.navigate;
                   },
                 ),
