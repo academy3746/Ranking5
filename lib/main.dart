@@ -1,7 +1,8 @@
+// ignore_for_file: avoid_print
+
 import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -23,13 +24,11 @@ Future<void> _requestLocationPermission() async {
 }
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Firebase 연동 시 필히 import
-  await Firebase.initializeApp(); // Firebase State 초기화
+  WidgetsFlutterBinding.ensureInitialized(); /// Firebase 연동 시 필히 import
+  await Firebase.initializeApp(); /// Firebase State 초기화
 
   bool data = await fetchData();
-  if (kDebugMode) {
-    print(data);
-  }
+  print(data);
 
   await _requestLocationPermission();
 
@@ -37,16 +36,13 @@ void main() async {
     FirebaseCrashlytics.instance.recordError(error, stack);
   });
 
-  runApp(const Rank5App());
-
   await SystemChrome.setPreferredOrientations(
-    [
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ],
+    [DeviceOrientation.portraitUp],
   );
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+
+  runApp(const Rank5App());
 }
 
 class Rank5App extends StatelessWidget {
