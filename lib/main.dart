@@ -24,8 +24,12 @@ Future<void> _requestLocationPermission() async {
 }
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); /// Firebase 연동 시 필히 import
-  await Firebase.initializeApp(); /// Firebase State 초기화
+  WidgetsFlutterBinding.ensureInitialized();
+
+  /// Firebase 연동 시 필히 import
+  await Firebase.initializeApp();
+
+  /// Firebase State 초기화
 
   bool data = await fetchData();
   print(data);
@@ -53,7 +57,9 @@ class Rank5App extends StatelessWidget {
     return MaterialApp(
       title: '랭킹5',
       theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color(0xFF0AE5AC),
+          ),
           primaryColor: const Color(0xFF0AE5AC),
           visualDensity: VisualDensity.adaptivePlatformDensity
           //useMaterial3: true,
