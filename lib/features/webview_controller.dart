@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_collection_literals
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -230,7 +232,6 @@ class _WebviewControllerState extends State<WebviewController> {
                 child: WebView(
                   initialUrl: url,
                   javascriptMode: JavascriptMode.unrestricted,
-                  // ignore: prefer_collection_literals
                   javascriptChannels: <JavascriptChannel>[
                     _flutterWebviewProJavascriptChannel(context),
                   ].toSet(),
@@ -298,7 +299,6 @@ class _WebviewControllerState extends State<WebviewController> {
                   },
                   geolocationEnabled: true,
                   zoomEnabled: false,
-                  // ignore: prefer_collection_literals
                   gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
                     Factory<EagerGestureRecognizer>(
                       () => EagerGestureRecognizer(),
