@@ -304,7 +304,7 @@ class _WebviewControllerState extends State<WebviewController> {
                       () => EagerGestureRecognizer(),
                     ),
                   ].toSet(),
-                  gestureNavigationEnabled: true,
+                  gestureNavigationEnabled: true, // IOS Only
                   navigationDelegate: (NavigationRequest request) async {
                     if (request.url.startsWith("tel:")) {
                       if (await canLaunchUrl(Uri.parse(request.url))) {
@@ -313,7 +313,7 @@ class _WebviewControllerState extends State<WebviewController> {
                       return NavigationDecision.prevent;
                     }
                     if (request.url.startsWith(
-                        "https://play.google.com/store/apps/details?id=kr.sogeum.rank5")) {
+                        "https://play.google.com/store/apps/details?id=")) {
                       launchURL(request.url);
                       return NavigationDecision.prevent;
                     }

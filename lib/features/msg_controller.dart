@@ -1,16 +1,18 @@
 // Performing Firebase Messaging service CONTROLLER
+// ignore_for_file: avoid_print
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
 class MsgController extends GetxController {
-  // Initialize : Service Entry point
+  /// Initialize : Service Entry point
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   @override
   void onInit() async {
-    // Firebase 서버에 권한 요청
+    /// Firebase 서버에 권한 요청
     NotificationSettings settings = await messaging.requestPermission(
       alert: true,
       announcement: false,
@@ -20,36 +22,32 @@ class MsgController extends GetxController {
       provisional: false,
       sound: true,
     );
-    // Debugging Code
-    if (kDebugMode) {
-      print(settings.authorizationStatus);
-    }
+    /// Debugging Code
+    print(settings.authorizationStatus);
+
     getToken();
     onMessage();
 
     super.onInit();
   }
 
-  // Android Push Alarm Setting: Channel only for performing messaging service
+  /// Android Push Alarm Setting: Channel only for performing messaging service
   final AndroidNotificationChannel channel = const AndroidNotificationChannel(
-    'high_importance_channel', // id: AndroidManifest.xml (line 29) 참조
-    'High Importance Notifications', // title
+    'high_importance_channel',
+    'High Importance Notifications',
     description: 'This channel is used for important notifications.',
-    // description
     importance: Importance.max,
   );
 
   final FlutterLocalNotificationsPlugin plugin =
       FlutterLocalNotificationsPlugin();
 
-  // Firebase 서버에 등록된 유저의 고유 토큰값 Get
+  /// Firebase 서버에 등록된 유저의 고유 토큰값 Get
   Future<String?> getToken() async {
     String? token = await messaging.getToken();
-    // Throw & Catch Exception
+    /// Throw & Catch Exception
     try {
-      if (kDebugMode) {
-        print(token);
-      }
+      print(token);
       return token;
     } catch (e) {
       // Comment line
@@ -57,7 +55,7 @@ class MsgController extends GetxController {
     }
   }
 
-  // Firebase Messaging Plugin setting
+  /// Firebase Messaging Plugin setting
   Future<String?> onMessage() async {
     await plugin
         .resolvePlatformSpecificImplementation<
@@ -76,13 +74,13 @@ class MsgController extends GetxController {
       onSelectNotification: (String? payload) async {},
     );
 
-    // ★★★★★ onMessage Stream setting ★★★★★
+    /// ★★★★★ onMessage Stream setting ★★★★★
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      // 메시지가 전송 될때마다 listen() 내부에서 call-back 진행
+      /// 메시지가 전송 될때마다 listen() 내부에서 call-back 진행
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification!.android;
       AppleNotification? apple = message.notification!.apple;
-      // android 일 때에만 flutterNotification 노출 조건 분기문
+      /// android 일 때에만 flutterNotification 노출 조건 분기문
       if (notification != null && android != null) {
         plugin.show(
           notification.hashCode,
@@ -96,17 +94,12 @@ class MsgController extends GetxController {
             ),
           ),
         );
-        // For Debugging Area
-        if (kDebugMode) {
-          print("Data Receive: ${message.data}");
-        }
+        /// For Debugging Area
+        print("Data Receive: ${message.data}");
 
-        // Check Notification whether is or not
+        /// Check Notification whether is or not
         if (message.notification != null) {
-          if (kDebugMode) {
-            print(
-                "Message also contained a notification: ${message.notification!.body}");
-          }
+          print("Message also contained a notification: ${message.notification!.body}");
         }
       } else if (notification != null && apple != null) {
         plugin.show(
@@ -126,17 +119,12 @@ class MsgController extends GetxController {
         );
       }
 
-      // For Debugging Area
-      if (kDebugMode) {
-        print("Data Receive: ${message.data}");
-      }
+      /// For Debugging Area
+      print("Data Receive: ${message.data}");
 
-      // Check Notification whether is or not
+      /// Check Notification whether is or not
       if (message.notification != null) {
-        if (kDebugMode) {
-          print(
-              "Message also contained a notification: ${message.notification!.body}");
-        }
+        print("Message also contained a notification: ${message.notification!.body}");
       }
     });
     return null;
