@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_collection_literals
+// ignore_for_file: prefer_collection_literals, avoid_print
 
 import 'dart:async';
 import 'dart:convert';
@@ -71,15 +71,11 @@ class _WebviewControllerState extends State<WebviewController> {
     try {
       final position = await Geolocator.getCurrentPosition();
       setState(() {
-        if (kDebugMode) {
-          print(_position);
-        }
+        print(_position);
         _position = position;
       });
     } catch (e) {
-      if (kDebugMode) {
-        print(e.toString());
-      }
+      print(e.toString());
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text("위치 정보를 받아오는 데 실패했습니다.")));
     }
@@ -92,13 +88,9 @@ class _WebviewControllerState extends State<WebviewController> {
       PermissionStatus result =
           await Permission.manageExternalStorage.request();
       if (!result.isGranted) {
-        if (kDebugMode) {
-          print('저장소 접근 권한이 승인되었습니다.');
-        }
+        print('저장소 접근 권한이 승인되었습니다.');
       } else {
-        if (kDebugMode) {
-          print('저장소 접근 권한이 거부되었습니다.');
-        }
+        print('저장소 접근 권한이 거부되었습니다.');
       }
     }
   }
@@ -139,9 +131,7 @@ class _WebviewControllerState extends State<WebviewController> {
             String userId = jsonData['data']['userId'];
             GetStorage().write('userId', userId);
 
-            if (kDebugMode) {
-              print('@addJavaScriptHandler userId $userId');
-            }
+            print('@addJavaScriptHandler userId $userId');
 
             String? token = await _getPushToken();
             _viewController?.runJavascript('tokenUpdate("$token")');
@@ -236,10 +226,8 @@ class _WebviewControllerState extends State<WebviewController> {
                     _flutterWebviewProJavascriptChannel(context),
                   ].toSet(),
                   onWebResourceError: (error) {
-                    if (kDebugMode) {
-                      print("Error Code: ${error.errorCode}");
-                      print("Error Description: ${error.description}");
-                    }
+                    print("Error Code: ${error.errorCode}");
+                    print("Error Description: ${error.description}");
                   },
                   onWebViewCreated:
                       (WebViewController webviewController) async {
@@ -259,9 +247,7 @@ class _WebviewControllerState extends State<WebviewController> {
                     });
                   },
                   onPageStarted: (String url) async {
-                    if (kDebugMode) {
-                      print("Current Page: $url");
-                    }
+                    print("Current Page: $url");
                   },
                   onPageFinished: (String url) async {
                     if (url.contains("https://ranking5.net/") &&
