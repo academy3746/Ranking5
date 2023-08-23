@@ -76,6 +76,7 @@ class _WebviewControllerState extends State<WebviewController> {
       });
     } catch (e) {
       print(e.toString());
+      if(!mounted) return;
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text("위치 정보를 받아오는 데 실패했습니다.")));
     }

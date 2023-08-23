@@ -26,10 +26,7 @@ Future<void> _requestLocationPermission() async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  /// Firebase 연동 시 필히 import
   await Firebase.initializeApp();
-
-  /// Firebase State 초기화
 
   bool data = await fetchData();
   print(data);
