@@ -23,22 +23,22 @@ class WebviewController extends StatefulWidget {
 }
 
 class _WebviewControllerState extends State<WebviewController> {
-  // URL 초기화
+  /// URL 초기화
   final String url = "https://ranking5.net/";
 
-  // 인덱스 페이지 초기화
+  /// 인덱스 페이지 초기화
   bool isInMainPage = true;
 
-  // 웹뷰 컨트롤러 초기화
+  /// 웹뷰 컨트롤러 초기화
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
 
   WebViewController? _viewController;
 
-  // GPS 초기화
+  /// GPS 초기화
   Position? _position;
 
-  // 푸시 추가 부분
+  /// 푸시 추가 부분
   final MsgController _msgController = Get.put(MsgController());
 
   @override
@@ -50,7 +50,7 @@ class _WebviewControllerState extends State<WebviewController> {
     _requestStoragePermission();
   }
 
-  // 위치 권한 요청
+  /// 위치 권한 요청
   Future<void> _requestPermission() async {
     final status = await Geolocator.checkPermission();
 
@@ -66,7 +66,7 @@ class _WebviewControllerState extends State<WebviewController> {
     await _updatePosition();
   }
 
-  // 위치 정보 업데이트
+  /// 위치 정보 업데이트
   Future<void> _updatePosition() async {
     try {
       final position = await Geolocator.getCurrentPosition();
@@ -82,7 +82,7 @@ class _WebviewControllerState extends State<WebviewController> {
     }
   }
 
-  // 저장매체 접근 권한 요청
+  /// 저장매체 접근 권한 요청
   void _requestStoragePermission() async {
     PermissionStatus status = await Permission.manageExternalStorage.status;
     if (!status.isGranted) {
@@ -96,32 +96,32 @@ class _WebviewControllerState extends State<WebviewController> {
     }
   }
 
-  // 쿠키 획득
+  /// 쿠키 획득
   Future<String> _getCookies(WebViewController controller) async {
     final String cookies =
         await controller.runJavascriptReturningResult('document.cookie;');
     return cookies;
   }
 
-  // 쿠키 설정
+  /// 쿠키 설정
   Future<void> _setCookies(WebViewController controller, String cookies) async {
     await controller
         .runJavascriptReturningResult('document.cookie="$cookies";');
   }
 
-  // 쿠키 저장
+  /// 쿠키 저장
   Future<void> _saveCookies(String cookies) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('cookies', cookies);
   }
 
-  // 쿠키 로드
+  /// 쿠키 로드
   Future<String?> _loadCookies() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('cookies');
   }
 
-  // 네이티브 ~ 웹 서버 통신: Modify tail.php in G5
+  /// 네이티브 ~ 웹 서버 통신: Modify tail.php in G5
   JavascriptChannel _flutterWebviewProJavascriptChannel(BuildContext context) {
     return JavascriptChannel(
       name: 'flutter_webview_pro',
@@ -147,6 +147,7 @@ class _WebviewControllerState extends State<WebviewController> {
     return await _msgController.getToken();
   }
 
+  /// Google Play Store Direction
   void launchURL(String url) async {
     final marketUrl = Uri.parse(url);
 
@@ -160,6 +161,50 @@ class _WebviewControllerState extends State<WebviewController> {
     }
   }
 
+  /// 뒤로가기 Action
+  Future<bool> _onWillPop() async {
+    if (_viewController == null) {
+      return false;
+    }
+
+    final currentUrl = await _viewController?.currentUrl();
+
+    if (currentUrl == url) {
+      if (!mounted) return false;
+      return showDialog<bool>(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("앱을 종료하시겠습니까?"),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                  print("앱이 포그라운드에서 종료되었습니다.");
+                },
+                child: const Text("확인"),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                  print("앱이 종료되지 않았습니다.");
+                },
+                child: const Text("취소"),
+              ),
+            ],
+          );
+        },
+      ).then((value) => value ?? false);
+    } else if (await _viewController!.canGoBack() && _viewController != null) {
+      _viewController!.goBack();
+      print("이전 페이지로 이동하였습니다.");
+
+      isInMainPage = false;
+      return false;
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -171,54 +216,7 @@ class _WebviewControllerState extends State<WebviewController> {
             height: constraints.maxHeight,
             width: constraints.maxWidth,
             child: WillPopScope(
-              onWillPop: () async {
-                if (_viewController == null) {
-                  return false;
-                }
-
-                final currentUrl = await _viewController?.currentUrl();
-
-                if (currentUrl == url) {
-                  if (!mounted) return false;
-                  return showDialog<bool>(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: const Text("앱을 종료하시겠습니까?"),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop(true);
-                              if (kDebugMode) {
-                                print("앱이 포그라운드에서 종료되었습니다.");
-                              }
-                            },
-                            child: const Text("확인"),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop(false);
-                              if (kDebugMode) {
-                                print("앱이 종료되지 않았습니다.");
-                              }
-                            },
-                            child: const Text("취소"),
-                          ),
-                        ],
-                      );
-                    },
-                  ).then((value) => value ?? false);
-                } else if (await _viewController!.canGoBack() &&
-                    _viewController != null) {
-                  _viewController!.goBack();
-                  if (kDebugMode) {
-                    print("이전 페이지로 이동하였습니다.");
-                  }
-                  isInMainPage = false;
-                  return false;
-                }
-                return false;
-              },
+              onWillPop: _onWillPop,
               child: SafeArea(
                 child: WebView(
                   initialUrl: url,
@@ -272,8 +270,6 @@ class _WebviewControllerState extends State<WebviewController> {
                     if (url.contains(
                             "https://ranking5.net/bbs/login.php") &&
                         _viewController != null) {
-                      // 추후 카카오 or 구글 맵스 API 추가 부분
-
                       final cookies = await _getCookies(_viewController!);
                       await _saveCookies(cookies);
                     } else {

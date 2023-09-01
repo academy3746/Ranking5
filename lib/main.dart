@@ -7,17 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rank5/features/webview_controller.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-void launchURL() async {
-  const url = "rank5://kr.sogeum.rank5";
-
-  if (await canLaunchUrl(Uri.parse(url))) {
-    await launchUrl(Uri.parse(url));
-  } else {
-    throw "Can not launch $url";
-  }
-}
 
 Future<void> _requestLocationPermission() async {
   await Permission.location.request();
@@ -41,7 +30,12 @@ void main() async {
     [DeviceOrientation.portraitUp],
   );
 
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.white,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ),
+  );
 
   runApp(const Rank5App());
 }
