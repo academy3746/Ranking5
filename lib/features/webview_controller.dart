@@ -300,6 +300,11 @@ class _WebviewControllerState extends State<WebviewController> {
                       launchURL(request.url);
                       return NavigationDecision.prevent;
                     }
+                    if (request.url.startsWith(
+                        "https://apps.apple.com/app/랭킹5/id6449736619")) {
+                      launchURL(request.url);
+                      return NavigationDecision.prevent;
+                    }
                     return NavigationDecision.navigate;
                   },
                 ),
