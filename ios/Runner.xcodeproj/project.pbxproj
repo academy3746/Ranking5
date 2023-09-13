@@ -473,10 +473,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 5QMLLW323Z;
 				ENABLE_BITCODE = NO;
-				FLUTTER_BUILD_NAME = 1.0.1;
+				FLUTTER_BUILD_NAME = 1.0.2;
+				FLUTTER_BUILD_NUMBER = 2;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "랭킹5";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
@@ -484,7 +485,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.sogeum.rank5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -657,10 +658,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 5QMLLW323Z;
 				ENABLE_BITCODE = NO;
-				FLUTTER_BUILD_NAME = 1.0.1;
+				FLUTTER_BUILD_NAME = 1.0.2;
+				FLUTTER_BUILD_NUMBER = 2;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "랭킹5";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
@@ -668,7 +670,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.sogeum.rank5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -685,10 +687,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 5QMLLW323Z;
 				ENABLE_BITCODE = NO;
-				FLUTTER_BUILD_NAME = 1.0.1;
+				FLUTTER_BUILD_NAME = 1.0.2;
+				FLUTTER_BUILD_NUMBER = 2;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "랭킹5";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
@@ -696,7 +699,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = kr.sogeum.rank5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";

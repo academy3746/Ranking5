@@ -295,11 +295,7 @@ class _WebviewControllerState extends State<WebviewController> {
                       }
                       return NavigationDecision.prevent;
                     }
-                    if (request.url.startsWith(
-                        "https://play.google.com/store/apps/details?id=")) {
-                      launchURL(request.url);
-                      return NavigationDecision.prevent;
-                    }
+
                     if (request.url.startsWith(
                         "https://apps.apple.com/app/랭킹5/id6449736619")) {
                       launchURL(request.url);
