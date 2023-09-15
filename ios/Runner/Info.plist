@@ -1,83 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
-	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>CFBundleDisplayName</key>
-	<string>랭킹5</string>
-	<key>CFBundleExecutable</key>
-	<string>$(EXECUTABLE_NAME)</string>
-	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleName</key>
-	<string>rank5</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string>$(FLUTTER_BUILD_NAME)</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
-	<key>FirebaseAppDelegateProxyEnabled</key>
-	<false/>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
-	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSAllowsArbitraryLoads</key>
+		<key>CADisableMinimumFrameDurationOnPhone</key>
 		<true/>
-		<key>NSAllowsArbitraryLoadsInWebContent</key>
+		<key>CFBundleDevelopmentRegion</key>
+		<string>$(DEVELOPMENT_LANGUAGE)</string>
+		<key>CFBundleDisplayName</key>
+		<string>랭킹5</string>
+		<key>CFBundleExecutable</key>
+		<string>$(EXECUTABLE_NAME)</string>
+		<key>CFBundleIdentifier</key>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+		<key>CFBundleInfoDictionaryVersion</key>
+		<string>6.0</string>
+		<key>CFBundleName</key>
+		<string>rank5</string>
+		<key>CFBundlePackageType</key>
+		<string>APPL</string>
+		<key>CFBundleShortVersionString</key>
+		<string>$(FLUTTER_BUILD_NAME)</string>
+		<key>CFBundleSignature</key>
+		<string>????</string>
+		<key>CFBundleVersion</key>
+		<string>$(FLUTTER_BUILD_NUMBER)</string>
+		<key>FirebaseAppDelegateProxyEnabled</key>
+		<false/>
+		<key>LSRequiresIPhoneOS</key>
 		<true/>
-		<key>NSAllowsLocalNetworking</key>
+		<key>NSAppTransportSecurity</key>
+		<dict>
+			<key>NSAllowsArbitraryLoads</key>
+			<true/>
+			<key>NSAllowsArbitraryLoadsInWebContent</key>
+			<true/>
+			<key>NSAllowsLocalNetworking</key>
+			<true/>
+		</dict>
+		<key>NSCameraUsageDescription</key>
+		<string>해당 게시판에 직접 촬영한 사진을 등록하기 위해서는 카메라 접근 권한이 필요합니다.</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>앱을 사용하는 동안 현재 위치에서 가장 가까운 랭킹5 후보를 찾기 원한다면 회원님의 현재 위치 정보를 활용하는 것에 동의하셔야 합니다.</string>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>앱을 사용하는 동안 현재 위치에서 가장 가까운 랭킹5 후보를 찾기 원한다면 회원님의 현재 위치 정보를 활용하는 것에 동의하셔야 합니다.</string>
+		<key>NSLocationUsageDescription</key>
+		<string>앱을 사용하는 동안 현재 위치에서 가장 가까운 랭킹5 후보를 찾기 원한다면 회원님의 현재 위치 정보를 활용하는 것에 동의하셔야 합니다.</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>앱을 사용하는 동안 현재 위치에서 가장 가까운 랭킹5 후보를 찾기 원한다면 회원님의 현재 위치 정보를 활용하는 것에 동의하셔야 합니다.</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>해당 게시판에 기기에 저장된 사진을 등록하기 위해서는 갤러리 접근 권한이 필요합니다.</string>
+		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>fetch</string>
+			<string>remote-notification</string>
+		</array>
+		<key>UILaunchStoryboardName</key>
+		<string>LaunchScreen</string>
+		<key>UIMainStoryboardFile</key>
+		<string>Main</string>
+		<key>UIStatusBarHidden</key>
+		<true/>
+		<key>UISupportedInterfaceOrientations</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>UISupportedInterfaceOrientations~ipad</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationPortraitUpsideDown</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>UIViewControllerBasedStatusBarAppearance</key>
+		<false/>
+		<key>io.flutter.embedded_views_preview</key>
+		<string>YES</string>
 	</dict>
-	<key>NSCameraUsageDescription</key>
-	<string>해당 게시판에 직접 촬영한 사진을 등록하기 위해서는 카메라 접근 권한이 필요합니다.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>앱을 사용하는 동안 현재 위치에서 가장 가까운 랭킹5 후보를 찾기 원한다면 회원님의 현재 위치 정보를 활용하는 것에 동의하셔야 합니다.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>앱을 사용하는 동안 현재 위치에서 가장 가까운 랭킹5 후보를 찾기 원한다면 회원님의 현재 위치 정보를 활용하는 것에 동의하셔야 합니다.</string>
-	<key>NSLocationUsageDescription</key>
-	<string>앱을 사용하는 동안 현재 위치에서 가장 가까운 랭킹5 후보를 찾기 원한다면 회원님의 현재 위치 정보를 활용하는 것에 동의하셔야 합니다.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>앱을 사용하는 동안 현재 위치에서 가장 가까운 랭킹5 후보를 찾기 원한다면 회원님의 현재 위치 정보를 활용하는 것에 동의하셔야 합니다.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>해당 게시판에 기기에 저장된 사진을 등록하기 위해서는 갤러리 접근 권한이 필요합니다.</string>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>fetch</string>
-		<string>remote-notification</string>
-	</array>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
-	<key>UIStatusBarHidden</key>
-	<true/>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
-	<key>io.flutter.embedded_views_preview</key>
-	<string>YES</string>
-</dict>
 </plist>

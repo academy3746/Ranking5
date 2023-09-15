@@ -212,98 +212,94 @@ class _WebviewControllerState extends State<WebviewController> {
       backgroundColor: Colors.white,
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          return SizedBox(
-            height: constraints.maxHeight,
-            width: constraints.maxWidth,
-            child: WillPopScope(
-              onWillPop: _onWillPop,
-              child: SafeArea(
-                child: WebView(
-                  initialUrl: url,
-                  javascriptMode: JavascriptMode.unrestricted,
-                  javascriptChannels: <JavascriptChannel>[
-                    _flutterWebviewProJavascriptChannel(context),
-                  ].toSet(),
-                  onWebResourceError: (error) {
-                    print("Error Code: ${error.errorCode}");
-                    print("Error Description: ${error.description}");
-                  },
-                  onWebViewCreated:
-                      (WebViewController webviewController) async {
-                    _controller.complete(webviewController);
-                    _viewController = webviewController;
+          return WillPopScope(
+            onWillPop: _onWillPop,
+            child: SafeArea(
+              child: WebView(
+                initialUrl: url,
+                javascriptMode: JavascriptMode.unrestricted,
+                javascriptChannels: <JavascriptChannel>[
+                  _flutterWebviewProJavascriptChannel(context),
+                ].toSet(),
+                onWebResourceError: (error) {
+                  print("Error Code: ${error.errorCode}");
+                  print("Error Description: ${error.description}");
+                },
+                onWebViewCreated:
+                    (WebViewController webviewController) async {
+                  _controller.complete(webviewController);
+                  _viewController = webviewController;
 
-                    webviewController.currentUrl().then((url) {
-                      if (url == "https://ranking5.net/") {
-                        setState(() {
-                          isInMainPage = true;
-                        });
-                      } else {
-                        setState(() {
-                          isInMainPage = false;
-                        });
-                      }
-                    });
-                  },
-                  onPageStarted: (String url) async {
-                    print("Current Page: $url");
-                  },
-                  onPageFinished: (String url) async {
-                    if (url.contains("https://ranking5.net/") &&
-                        _viewController != null) {
-                      await _viewController!.runJavascript("""
-                    (function() {
-                      function scrollToFocusedInput(event) {
-                        const focusedElement = document.activeElement;
-                        if (focusedElement.tagName.toLowerCase() === 'input' || focusedElement.tagName.toLowerCase() === 'textarea') {
-                          setTimeout(() => {
-                            focusedElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                          }, 500);
-                        }
-                      }
-            
-                      document.addEventListener('focus', scrollToFocusedInput, true);
-                    })();
-                  """);
-                    }
-
-                    if (url.contains(
-                            "https://ranking5.net/bbs/login.php") &&
-                        _viewController != null) {
-                      final cookies = await _getCookies(_viewController!);
-                      await _saveCookies(cookies);
+                  webviewController.currentUrl().then((url) {
+                    if (url == "https://ranking5.net/") {
+                      setState(() {
+                        isInMainPage = true;
+                      });
                     } else {
-                      final cookies = await _loadCookies();
-
-                      if (cookies != null) {
-                        await _setCookies(_viewController!, cookies);
+                      setState(() {
+                        isInMainPage = false;
+                      });
+                    }
+                  });
+                },
+                onPageStarted: (String url) async {
+                  print("Current Page: $url");
+                },
+                onPageFinished: (String url) async {
+                  if (url.contains("https://ranking5.net/") &&
+                      _viewController != null) {
+                    await _viewController!.runJavascript("""
+                  (function() {
+                    function scrollToFocusedInput(event) {
+                      const focusedElement = document.activeElement;
+                      if (focusedElement.tagName.toLowerCase() === 'input' || focusedElement.tagName.toLowerCase() === 'textarea') {
+                        setTimeout(() => {
+                          focusedElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }, 500);
                       }
                     }
-                  },
-                  geolocationEnabled: true,
-                  zoomEnabled: false,
-                  gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
-                    Factory<EagerGestureRecognizer>(
-                      () => EagerGestureRecognizer(),
-                    ),
-                  ].toSet(),
-                  gestureNavigationEnabled: true, // IOS Only
-                  navigationDelegate: (NavigationRequest request) async {
-                    if (request.url.startsWith("tel:")) {
-                      if (await canLaunchUrl(Uri.parse(request.url))) {
-                        await launchUrl(Uri.parse(request.url));
-                      }
-                      return NavigationDecision.prevent;
-                    }
+          
+                    document.addEventListener('focus', scrollToFocusedInput, true);
+                  })();
+                """);
+                  }
 
-                    if (request.url.startsWith(
-                        "https://apps.apple.com/app/랭킹5/id6449736619")) {
-                      launchURL(request.url);
-                      return NavigationDecision.prevent;
+                  if (url.contains(
+                          "https://ranking5.net/bbs/login.php") &&
+                      _viewController != null) {
+                    final cookies = await _getCookies(_viewController!);
+                    await _saveCookies(cookies);
+                  } else {
+                    final cookies = await _loadCookies();
+
+                    if (cookies != null) {
+                      await _setCookies(_viewController!, cookies);
                     }
-                    return NavigationDecision.navigate;
-                  },
-                ),
+                  }
+                },
+                geolocationEnabled: true,
+                zoomEnabled: false,
+                gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+                  Factory<EagerGestureRecognizer>(
+                    () => EagerGestureRecognizer(),
+                  ),
+                ].toSet(),
+                gestureNavigationEnabled: true, // IOS Only
+                navigationDelegate: (NavigationRequest request) async {
+                  if (request.url.startsWith("tel:")) {
+                    if (await canLaunchUrl(Uri.parse(request.url))) {
+                      await launchUrl(Uri.parse(request.url));
+                    }
+                    return NavigationDecision.prevent;
+                  }
+
+                  if (request.url.startsWith(
+                      "https://apps.apple.com/app/랭킹5/id6449736619")) {
+                    launchURL(request.url);
+                    return NavigationDecision.prevent;
+                  }
+                  return NavigationDecision.navigate;
+                },
               ),
             ),
           );
